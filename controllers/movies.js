@@ -63,15 +63,14 @@ module.exports.deleteMovie = (req, res, next) => {
   Movie.findById(req.params._id)
     .then((movie) => {
       if (!movie) {
-        return new NotFoundError('Кинокартина по указанному id не найдена.');
+        throw new NotFoundError('Кинокартина по указанному id не найдена.');
       }
       if (String(movie.owner) === String(req.user.payload._id)) {
-        return Movie.deleteOne(movie).then(() => res.status(OK_STATUS_CODE).send(movie));
+        Movie.deleteOne(movie).then(() => res.status(OK_STATUS_CODE).send(movie));
       }
       if (String(movie.owner) !== String(req.user.payload._id)) {
-        return new ForbiddenError('Доступ запрещён');
+        throw new ForbiddenError('Доступ запрещён');
       }
-      return next();
     })
     .catch((err) => {
       if (err.name === 'CastError') {
