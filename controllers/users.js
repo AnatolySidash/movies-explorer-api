@@ -77,6 +77,10 @@ module.exports.updateUserInfo = (req, res, next) => {
       res.status(OK_STATUS_CODE).send({ data: user });
     })
     .catch((err) => {
+      if (err.code === 11000) {
+        next(new ConflictRequestError(`Пользователь с таким ${email} уже зарегистрирован`));
+        return;
+      }
       if (err.name === 'ValidationError') {
         next(new BadRequestError('Переданы некорректные данные пользователя'));
       } else {

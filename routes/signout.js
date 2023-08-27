@@ -1,6 +1,6 @@
 const signoutRouter = require('express').Router();
 const { clearCookies } = require('../controllers/users');
 
-signoutRouter.get('/', clearCookies);
+signoutRouter.post('/', clearCookies);
 
 module.exports = signoutRouter;

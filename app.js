@@ -41,11 +41,11 @@ app.use('/signup', signupRouter);
 app.use('/signin', signinRouter);
 app.use('/signout', signoutRouter);
 
-app.use(errorLogger);
-
-app.use('*', (req, res, next) => {
+app.use('*', auth, (req, res, next) => {
   next(new NotFoundError('Страница не найдена'));
 });
+
+app.use(errorLogger);
 
 mongoose.connect(DB_URL, {
   useNewUrlParser: true,
