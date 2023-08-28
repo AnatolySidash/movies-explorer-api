@@ -1,7 +1,6 @@
 const {
   OK_STATUS_CODE,
   CREATED_STATUS_CODE,
-  SERVER_ERROR_STATUS_CODE,
 } = require('../utils/errors');
 
 const Movie = require('../models/movie');
@@ -10,13 +9,13 @@ const NotFoundError = require('../errors/not-found-error');
 const BadRequestError = require('../errors/bad-request-error');
 const ForbiddenError = require('../errors/forbidden-error');
 
-module.exports.getMovies = (req, res) => {
+module.exports.getMovies = (req, res, next) => {
   Movie.find({})
     .then((movie) => res
       .status(OK_STATUS_CODE).send(movie))
-    .catch(() => res
-      .status(SERVER_ERROR_STATUS_CODE)
-      .send({ message: 'На сервере произошла ошибка' }));
+    .catch((err) => {
+      next(err);
+    });
 };
 
 module.exports.addMovie = (req, res, next) => {
@@ -66,7 +65,11 @@ module.exports.deleteMovie = (req, res, next) => {
         throw new NotFoundError('Кинокартина по указанному id не найдена.');
       }
       if (String(movie.owner) === String(req.user.payload._id)) {
-        Movie.deleteOne(movie).then(() => res.status(OK_STATUS_CODE).send(movie));
+        Movie.deleteOne(movie).then(() => res
+          .status(OK_STATUS_CODE).send(movie))
+          .catch((err) => {
+            next(err);
+          });
       }
       if (String(movie.owner) !== String(req.user.payload._id)) {
         throw new ForbiddenError('Доступ запрещён');
