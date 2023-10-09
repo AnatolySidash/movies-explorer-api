@@ -1,3 +1,4 @@
+/* eslint-disable linebreak-style */
 const {
   OK_STATUS_CODE,
   CREATED_STATUS_CODE,

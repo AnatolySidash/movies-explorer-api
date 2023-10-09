@@ -13,7 +13,7 @@ const NOT_AUTHORIZED_REQUEST_STATUS_CODE = 401;
 // Код ненайденного ресурса
 const NOT_FOUND_STATUS_CODE = 404;
 
-// Код оштбки сервера
+// Код ошибки сервера
 const SERVER_ERROR_STATUS_CODE = 500;
 
 module.exports = {

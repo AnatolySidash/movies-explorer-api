@@ -1,3 +1,4 @@
+/* eslint-disable linebreak-style */
 class NotAuthorizedRequestError extends Error {
   constructor(message) {
     super(message);

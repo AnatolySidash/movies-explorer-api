@@ -1,3 +1,4 @@
+// eslint-disable-next-line linebreak-style
 const bcrypt = require('bcrypt');
 const { generateToken } = require('../utils/token');
 
@@ -27,7 +28,7 @@ module.exports.createUser = (req, res, next) => {
     ))
     .catch((err) => {
       if (err.code === 11000) {
-        next(new ConflictRequestError(`Пользователь с таким ${email} уже зарегистрирован`));
+        next(new ConflictRequestError(`Пользователь с таким ${email} уже существует.`));
         return;
       }
       if (err.name === 'ValidationError') {
@@ -78,7 +79,7 @@ module.exports.updateUserInfo = (req, res, next) => {
     })
     .catch((err) => {
       if (err.code === 11000) {
-        next(new ConflictRequestError(`Пользователь с таким ${email} уже зарегистрирован`));
+        next(new ConflictRequestError(`Пользователь с таким ${email} уже существует`));
         return;
       }
       if (err.name === 'ValidationError') {
