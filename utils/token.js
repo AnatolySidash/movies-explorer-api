@@ -12,9 +12,6 @@ function checkToken(token) {
   }
 
   try {
-    if (!jwt) {
-      return false;
-    }
     return jwt.verify(token, JWT_SECRET);
   } catch (err) {
     console.error('При авторизации произошла ошибка. Переданный токен некорректен');
